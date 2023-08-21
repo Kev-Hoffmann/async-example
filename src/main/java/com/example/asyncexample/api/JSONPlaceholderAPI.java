@@ -2,18 +2,23 @@ package com.example.asyncexample.api;
 
 import com.example.asyncexample.dto.PostDto;
 import com.example.asyncexample.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Component
+@RequiredArgsConstructor
 public class JSONPlaceholderAPI {
 
-    public Mono<UserDto> getUser(Integer id) {
-        return null;
-    }
+  private final WebClient webClient;
 
-    public Flux<PostDto> getPosts(Integer userId) {
-        return null;
-    }
+  public Mono<UserDto> getUser(Integer id) {
+    return webClient.get().uri("/users/" + id).retrieve().bodyToMono(UserDto.class);
+  }
+
+  public Flux<PostDto> getPosts(Integer userId) {
+    return webClient.get().uri("/posts?userId=" + userId).retrieve().bodyToFlux(PostDto.class);
+  }
 }

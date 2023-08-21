@@ -5,8 +5,8 @@ import com.example.asyncexample.dto.UserDto;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -18,34 +18,41 @@ import static org.springframework.http.HttpStatus.OK;
 @WireMockTest(httpPort = 9090)
 public class JSONPlaceholderAPITest {
 
-    @InjectMocks
-    private JSONPlaceholderAPI jsonPlaceholderAPI;
+  private final JSONPlaceholderAPI jsonPlaceholderAPI =
+      new JSONPlaceholderAPI(WebClient.create("http://localhost:9090"));
 
-    @Test
-    public void shouldReturnUser() {
-        int userId = 1;
+  @Test
+  public void shouldReturnUser() {
+    int userId = 1;
 
-        stubFor(get(urlEqualTo("/users/" + userId)).willReturn( aResponse()
-                .withStatus(OK.value())
-                .withHeader("Content-Type", "application/json")
-                .withBodyFile("user.json")));
+    stubFor(
+        get(urlEqualTo("/users/" + userId))
+            .willReturn(
+                aResponse()
+                    .withStatus(OK.value())
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("user.json")));
 
-        UserDto userDto = jsonPlaceholderAPI.getUser(userId).block();
+    UserDto userDto = jsonPlaceholderAPI.getUser(userId).block();
 
-        assertNotNull(userDto);
-    }
+    assertNotNull(userDto);
+  }
 
-    @Test
-    public void shouldReturnPosts() {
-        int userId = 1;
+  @Test
+  public void shouldReturnPosts() {
+    int userId = 1;
 
-        stubFor(get(urlEqualTo("/posts?userId=" + userId)).willReturn( aResponse()
-                .withStatus(OK.value())
-                .withHeader("Content-Type", "application/json")
-                .withBodyFile("posts.json")));
+    stubFor(
+        get(urlEqualTo("/posts?userId=" + userId))
+            .willReturn(
+                aResponse()
+                    .withStatus(OK.value())
+                    .withHeader("Content-Type", "application/json")
+                    .withBodyFile("posts.json")));
 
-        List<PostDto> postDtoList = jsonPlaceholderAPI.getPosts(userId).collectList().block();
+    List<PostDto> postDtoList = jsonPlaceholderAPI.getPosts(userId).collectList().block();
 
-        assertNotNull(postDtoList);
-    }
+    assertNotNull(postDtoList);
+    assertEquals(2, postDtoList.size());
+  }
 }
