@@ -1,3 +1,9 @@
 package com.example.asyncexample.service;
 
-public interface UserPostsService {}
+import com.example.asyncexample.dto.UserPostsDto;
+import reactor.core.publisher.Mono;
+
+public interface UserPostsService {
+
+  Mono<UserPostsDto> getUserAndPosts(Integer id);
+}
