@@ -1,11 +1,13 @@
 package com.example.asyncexample.controller;
 
 import com.example.asyncexample.dto.UserPostsDto;
+import com.example.asyncexample.error.dto.ErrorMessageDto;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
@@ -54,5 +56,29 @@ public class UserPostsControllerTest {
     assertNotNull(responseBody);
 
     assertEquals(userId, responseBody.getUser().getId());
+  }
+
+  @Test
+  public void shouldReturnNotFoundAndErrorMessageIfUserIsNotFound() {
+    int userId = 123;
+
+    stubFor(get(urlEqualTo("/users/" + userId)).willReturn(notFound()));
+    stubFor(get(urlEqualTo("/posts?userId=" + userId)).willReturn(ok()));
+
+    ErrorMessageDto responseBody =
+        webTestClient
+            .get()
+            .uri("/api/v1/users/" + userId + "/posts")
+            .exchange()
+            .expectStatus()
+            .isNotFound()
+            .expectBody(ErrorMessageDto.class)
+            .returnResult()
+            .getResponseBody();
+
+    assertNotNull(responseBody);
+    assertEquals("Resource Not Found", responseBody.getTitle());
+    assertEquals(HttpStatus.NOT_FOUND.value(), responseBody.getCode());
+    assertEquals("User " + userId + " not found!", responseBody.getDetails());
   }
 }
