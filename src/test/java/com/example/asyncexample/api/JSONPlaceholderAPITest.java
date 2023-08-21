@@ -1,19 +1,18 @@
 package com.example.asyncexample.api;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.http.HttpStatus.OK;
+
 import com.example.asyncexample.dto.PostDto;
 import com.example.asyncexample.dto.UserDto;
 import com.example.asyncexample.error.ResourceNotFoundException;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.List;
-
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.http.HttpStatus.OK;
 
 @ExtendWith(MockitoExtension.class)
 @WireMockTest(httpPort = 9090)

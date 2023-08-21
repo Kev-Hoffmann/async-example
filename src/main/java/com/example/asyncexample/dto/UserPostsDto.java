@@ -1,11 +1,10 @@
 package com.example.asyncexample.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class UserPostsDto {
 
-    private UserDto user;
-    private List<PostDto> posts;
+  private UserDto user;
+  private List<PostDto> posts;
 }

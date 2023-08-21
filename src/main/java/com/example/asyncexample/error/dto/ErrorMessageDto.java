@@ -1,8 +1,7 @@
 package com.example.asyncexample.error.dto;
 
-import lombok.*;
-
 import java.time.ZonedDateTime;
+import lombok.*;
 
 @Getter
 @Setter
@@ -11,9 +10,8 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 public class ErrorMessageDto {
 
-    private String title;
-    private Integer code;
-    private ZonedDateTime timestamp;
-    private String details;
-
+  private String title;
+  private Integer code;
+  private ZonedDateTime timestamp;
+  private String details;
 }

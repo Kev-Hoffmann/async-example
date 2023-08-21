@@ -1,5 +1,7 @@
 package com.example.asyncexample.api;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import com.example.asyncexample.dto.PostDto;
 import com.example.asyncexample.dto.UserDto;
 import com.example.asyncexample.error.ResourceNotFoundException;
@@ -8,8 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Component
 @RequiredArgsConstructor

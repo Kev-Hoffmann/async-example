@@ -1,5 +1,9 @@
 package com.example.asyncexample.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
+
 import com.example.asyncexample.api.JSONPlaceholderAPI;
 import com.example.asyncexample.dto.PostDto;
 import com.example.asyncexample.dto.UserDto;
@@ -11,10 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserPostsServiceImplTest {
@@ -33,7 +33,6 @@ public class UserPostsServiceImplTest {
     expectedPostDto1.setUserId(userId);
     PostDto expectedPostDto2 = new PostDto();
     expectedPostDto2.setUserId(userId);
-
 
     when(jsonPlaceholderApi.getUser(userId)).thenReturn(Mono.just(expectedUserDto));
     when(jsonPlaceholderApi.getPosts(userId))

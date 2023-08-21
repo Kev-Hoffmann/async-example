@@ -11,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class GeoDto {
 
-    private String lat;
-    private String lng;
+  private String lat;
+  private String lng;
 }

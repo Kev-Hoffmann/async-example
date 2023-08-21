@@ -1,14 +1,13 @@
 package com.example.asyncexample.config;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import com.example.asyncexample.error.ResourceNotFoundException;
 import com.example.asyncexample.error.dto.ErrorMessageDto;
+import java.time.ZonedDateTime;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.time.ZonedDateTime;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestControllerAdvice
 public class GlobalRestControllerAdvice {
