@@ -2,6 +2,7 @@ package com.example.asyncexample.api;
 
 import com.example.asyncexample.dto.PostDto;
 import com.example.asyncexample.dto.UserDto;
+import com.example.asyncexample.error.ResourceNotFoundException;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,19 @@ public class JSONPlaceholderAPITest {
     UserDto userDto = jsonPlaceholderAPI.getUser(userId).block();
 
     assertNotNull(userDto);
+  }
+
+  @Test
+  public void shouldReturnResourceNotFoundException() {
+    int userId = 123;
+
+    stubFor(get(urlEqualTo("/users/" + userId)).willReturn(notFound()));
+
+    ResourceNotFoundException resourceNotFoundException =
+        assertThrows(
+            ResourceNotFoundException.class, () -> jsonPlaceholderAPI.getUser(userId).block());
+
+    assertEquals("User " + userId + " not found!", resourceNotFoundException.getLocalizedMessage());
   }
 
   @Test
